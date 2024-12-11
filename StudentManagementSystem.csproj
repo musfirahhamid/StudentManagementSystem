@@ -145,6 +145,14 @@
     <Compile Include="Migrations\202412082348564_KeyAdded.designer.cs">
       <DependentUpon>202412082348564_KeyAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202412102139192_AddedisDeletedinStudent.cs" />
+    <Compile Include="Migrations\202412102139192_AddedisDeletedinStudent.Designer.cs">
+      <DependentUpon>202412102139192_AddedisDeletedinStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412102345031_AddedIsDeletedinTeacher.cs" />
+    <Compile Include="Migrations\202412102345031_AddedIsDeletedinTeacher.Designer.cs">
+      <DependentUpon>202412102345031_AddedIsDeletedinTeacher.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Student.cs" />
@@ -195,6 +203,8 @@
     <Content Include="Views\Teacher\Create.cshtml" />
     <Content Include="Views\Teacher\ViewTeacher.cshtml" />
     <Content Include="Views\Teacher\GetTeacher.cshtml" />
+    <Content Include="Views\Student\Update.cshtml" />
+    <Content Include="Views\Teacher\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -221,6 +231,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412082348564_KeyAdded.resx">
       <DependentUpon>202412082348564_KeyAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412102139192_AddedisDeletedinStudent.resx">
+      <DependentUpon>202412102139192_AddedisDeletedinStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412102345031_AddedIsDeletedinTeacher.resx">
+      <DependentUpon>202412102345031_AddedIsDeletedinTeacher.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

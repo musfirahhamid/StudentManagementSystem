@@ -16,6 +16,8 @@ namespace StudentManagementSystem.Models
 
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        public bool IsDeleted { get; set; }
      
 
     }

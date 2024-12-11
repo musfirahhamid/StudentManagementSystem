@@ -31,7 +31,7 @@ namespace StudentManagementSystem.Controllers
 
         public ActionResult GetStudent()
         {
-            var student = _managementContext.Students.ToList();
+            var student = _managementContext.Students.Where(s=> !s.IsDeleted).ToList();
             return View(student);
         }
 
@@ -55,5 +55,38 @@ namespace StudentManagementSystem.Controllers
             return RedirectToAction("GetStudent");
         }
 
+
+       [HttpGet]
+       public ActionResult Update(int id)
+            {
+            var student = _managementContext.Students.FirstOrDefault(s => s.Id == id);
+            if(student == null)
+                {
+                return HttpNotFound();
+                }
+            return View(student);
+            }
+
+        [HttpPost]
+        public ActionResult Update(Student student)
+            {
+            var entry = _managementContext.Entry(student);
+            entry.State = System.Data.Entity.EntityState.Modified;
+            _managementContext.SaveChanges();
+            return RedirectToAction("GetStudent");
+            }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+            {
+            var student = _managementContext.Students.Find(id);
+            if(student == null)
+                {
+                return HttpNotFound();
+                }
+            student.IsDeleted = true;
+            _managementContext.SaveChanges();
+            return RedirectToAction("GetStudent");
+            }
     }
 }

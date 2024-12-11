@@ -22,6 +22,8 @@
             <td>@student.FirstName</td>
             <td>@student.LastName</td>
             <td><a href="@Url.Action("ViewStudent", "Student", new { id= student.Id })">View Student Detail</a></td>
+            <td><a href="@Url.Action("Update","Student", new { id = student.Id })">Edit Detail</a></td>
+            <td><a href="@Url.Action("Delete","Student",new{id=student.Id })">Delete</a></td>
         </tr>
         }
     </tbody>

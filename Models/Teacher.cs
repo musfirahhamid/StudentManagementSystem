@@ -11,5 +11,6 @@ namespace StudentManagementSystem.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Qualification { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
