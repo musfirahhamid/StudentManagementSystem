@@ -19,21 +19,15 @@ namespace StudentManagementSystem.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            var student = new Student
-            {
-                Id = 1,
-                FirstName = "John",
-                LastName = "Doe"
-            };
-            
+            var student = _managementContext.Students.Where(s => !s.IsDeleted).ToList();
             return View(student);
         }
 
-        public ActionResult GetStudent()
-        {
-            var student = _managementContext.Students.Where(s=> !s.IsDeleted).ToList();
-            return View(student);
-        }
+        //public ActionResult GetStudent()
+        //{
+        //    var student = _managementContext.Students.Where(s=> !s.IsDeleted).ToList();
+        //    return View(student);
+        //}
 
         public ActionResult ViewStudent(int id)
         {
@@ -41,6 +35,8 @@ namespace StudentManagementSystem.Controllers
             return View(student);
         }
 
+
+        //Add Student
         [HttpGet]
         public ActionResult Create()
         {
@@ -52,12 +48,12 @@ namespace StudentManagementSystem.Controllers
         {
             _managementContext.Students.Add(student);
             _managementContext.SaveChanges();
-            return RedirectToAction("GetStudent");
+            return RedirectToAction("Index");
         }
 
-
-       [HttpGet]
-       public ActionResult Update(int id)
+        //Update Student
+        //Removed Attribute
+        public ActionResult Update(int id)
             {
             var student = _managementContext.Students.FirstOrDefault(s => s.Id == id);
             if(student == null)
@@ -73,10 +69,11 @@ namespace StudentManagementSystem.Controllers
             var entry = _managementContext.Entry(student);
             entry.State = System.Data.Entity.EntityState.Modified;
             _managementContext.SaveChanges();
-            return RedirectToAction("GetStudent");
+            return RedirectToAction("Index");
             }
 
-        [HttpGet]
+        //Delete Student
+        //Removed Attribute
         public ActionResult Delete(int id)
             {
             var student = _managementContext.Students.Find(id);
@@ -86,7 +83,7 @@ namespace StudentManagementSystem.Controllers
                 }
             student.IsDeleted = true;
             _managementContext.SaveChanges();
-            return RedirectToAction("GetStudent");
+            return RedirectToAction("Index");
             }
     }
 }
