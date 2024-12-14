@@ -1,16 +1,13 @@
 ﻿using StudentManagementSystem.DAL;
 using StudentManagementSystem.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace StudentManagementSystem.Controllers
-{
+    {
     public class TeacherController : Controller
         {
-        private ManagementContext _managementContext;
+        private  readonly ManagementContext _managementContext;
         public TeacherController()
             {
             _managementContext = new ManagementContext();
@@ -18,21 +15,15 @@ namespace StudentManagementSystem.Controllers
         // GET: Teacher
         public ActionResult Index()
             {
-            var teacher = new Teacher
-                {
-                Id = 1,
-                FirstName = "Teacher",
-                LastName = "Amenda",
-                Qualification = "MBA"
-                };
+            var teacher = _managementContext.Teachers.Where(t => !t.IsDeleted).ToList();
             return View(teacher);
             }
 
-        public ActionResult GetTeacher()
-            {
-            var teacher = _managementContext.Teachers.Where(t=> !t.IsDeleted).ToList();
-            return View(teacher);
-            }
+        //public ActionResult GetTeacher()
+        //    {
+        //    var teacher = _managementContext.Teachers.Where(t=> !t.IsDeleted).ToList();
+        //    return View(teacher);
+        //    }
 
         public ActionResult ViewTeacher(int id)
             {
@@ -53,11 +44,11 @@ namespace StudentManagementSystem.Controllers
             {
             _managementContext.Teachers.Add(teacher);
             _managementContext.SaveChanges();
-            return RedirectToAction("GetTeacher");
+            return RedirectToAction("Index");
             }
 
         //Update teacher
-        [HttpGet]
+        //Removed Attribute
         public ActionResult Update(int id)
             {
             var teacher = _managementContext.Teachers.FirstOrDefault(t=>t.Id==id);
@@ -74,11 +65,11 @@ namespace StudentManagementSystem.Controllers
             var entry = _managementContext.Entry(teacher);
             entry.State = System.Data.Entity.EntityState.Modified;
             _managementContext.SaveChanges();
-            return RedirectToAction("GetTeacher");
+            return RedirectToAction("Index");
             }
 
         //Delete Teacher
-        [HttpGet]
+        //Removed Attribute
         public ActionResult Delete(int id)
             {
             var teacher = _managementContext.Teachers.Find(id);
@@ -88,7 +79,7 @@ namespace StudentManagementSystem.Controllers
                 }
             teacher.IsDeleted = true;
             _managementContext.SaveChanges();
-            return RedirectToAction("GetTeacher");
+            return RedirectToAction("Index");
             }
 
         }

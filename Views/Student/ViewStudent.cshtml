@@ -3,7 +3,7 @@
     ViewBag.Title = "GetById";
 }
 
-<h2>Student's' Detail</h2>
+<h2>Student Details</h2>
 
 <table class="table">
     <thead>
@@ -19,7 +19,7 @@
                 <td>@Model.Id</td>
                 <td>@Model.FirstName</td>
                 <td>@Model.LastName</td>
-                <td><a href="@Url.Action("GetStudent","Student")">Go Back to List</a></td>
+                <td><a href="@Url.Action("Index","Student")">Go Back to List</a></td>
             </tr>
     </tbody>
 </table>

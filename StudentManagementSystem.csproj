@@ -126,6 +126,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
@@ -153,7 +155,20 @@
     <Compile Include="Migrations\202412102345031_AddedIsDeletedinTeacher.Designer.cs">
       <DependentUpon>202412102345031_AddedIsDeletedinTeacher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202412111716174_addedIdDeletedtoDepartment.cs" />
+    <Compile Include="Migrations\202412111716174_addedIdDeletedtoDepartment.Designer.cs">
+      <DependentUpon>202412111716174_addedIdDeletedtoDepartment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412132222453_addedCourseModel.cs" />
+    <Compile Include="Migrations\202412132222453_addedCourseModel.Designer.cs">
+      <DependentUpon>202412132222453_addedCourseModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412132324565_addedIsDeletedfield.cs" />
+    <Compile Include="Migrations\202412132324565_addedIsDeletedfield.Designer.cs">
+      <DependentUpon>202412132324565_addedIsDeletedfield.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Teacher.cs" />
@@ -168,6 +183,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Notes.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -205,6 +221,14 @@
     <Content Include="Views\Teacher\GetTeacher.cshtml" />
     <Content Include="Views\Student\Update.cshtml" />
     <Content Include="Views\Teacher\Update.cshtml" />
+    <Content Include="Views\Department\Create.cshtml" />
+    <Content Include="Views\Department\GetDepartment.cshtml" />
+    <Content Include="Views\Department\ViewDetails.cshtml" />
+    <Content Include="Views\Department\Update.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Course\Create.cshtml" />
+    <Content Include="Views\Course\ViewDetails.cshtml" />
+    <Content Include="Views\Course\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -237,6 +261,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412102345031_AddedIsDeletedinTeacher.resx">
       <DependentUpon>202412102345031_AddedIsDeletedinTeacher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412111716174_addedIdDeletedtoDepartment.resx">
+      <DependentUpon>202412111716174_addedIdDeletedtoDepartment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412132222453_addedCourseModel.resx">
+      <DependentUpon>202412132222453_addedCourseModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412132324565_addedIsDeletedfield.resx">
+      <DependentUpon>202412132324565_addedIsDeletedfield.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

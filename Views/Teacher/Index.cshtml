@@ -1,11 +1,33 @@
-﻿@model StudentManagementSystem.Models.Teacher
+﻿@model IEnumerable<StudentManagementSystem.Models.Teacher>
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Get All Teacher</h2>
+<div style="text-align: right; margin: 20px;">
+    <button onclick="location.href='@Url.Action("Create","Teacher")'" class="btn btn-success right">Create New Teacher</button>
+</div>
+    <table class="table text-center" border="1">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">First Name</th>
+                <th scope="col" class="text-center">Last Name</th>
+                <th scope="col" class="text-center">Qualification</th>
+                <th scope="col" class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var teacher in Model)
+                {
+                <tr>
+                    <td>@teacher.Id</td>
+                    <td>@teacher.FirstName</td>
+                    <td>@teacher.LastName</td>
+                    <td>@teacher.Qualification</td>
+                    <td><a href="@Url.Action("ViewTeacher", "Teacher", new { id= teacher.Id})"> <i class="fa-solid fa-eye" style="font-size:20px;"></i></a> &emsp; <a href="@Url.Action("Update", "Teacher", new { id=teacher.Id})"> <i class="fa-solid fa-pencil" style="font-size:20px;"></i></a> &emsp; <a href="@Url.Action("Delete", "Teacher", new { id= teacher.Id})">  <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a></td>
 
-
-<h5>@Model.FirstName</h5>
-<h5>@Model.LastName</h5>
-<h5>@Model.Qualification</h5>
+                </tr>
+                }
+        </tbody>
+    </table>

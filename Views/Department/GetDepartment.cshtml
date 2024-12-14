@@ -1,0 +1,30 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.Department>
+@{
+    ViewBag.Title = "GetDepartment";
+}
+
+<h2>List All Department</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Department Name</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var department in Model)
+            {
+        <tr>
+            <td>@department.Id</td>
+            <td>@department.DepartmentName</td>
+            @* <td><a href="@Url.Action("ViewDetails","Department", new {id =department.Id })">View Details</a></td>*@
+            <td><a href="@Url.Action("ViewDetails","Department")?id=@department.Id">&#128065;</a></td>
+            <td><a href="@Url.Action("Update","Department")?id=@department.Id">&#128393;</a></td>
+            @*<td><a href="@Url.Action("Update","Department", new {id = department.Id })">Edit Department</a></td>*@
+            <td><a href="@Url.Action("Delete","Department", new {id= department.Id })">&#10060;</a></td>
+        </tr>
+            }
+    </tbody>
+</table>

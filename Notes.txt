@@ -1,0 +1,4 @@
+﻿To remove migration
+Update-Database -TargetMigration <PreviousMigrationName>
+Replace <PreviousMigrationName> with the migration that comes immediately before the one you want to remove.
+Update-Database -TargetMigration AddedCourseModel
