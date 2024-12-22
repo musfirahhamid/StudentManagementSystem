@@ -43,6 +43,12 @@ namespace StudentManagementSystem.Controllers
         [HttpPost]
         public ActionResult Create(Course course)
             {
+           var existingCourse = _managementContext.Courses.FirstOrDefault(c=>c.CourseCode== course.CourseCode);
+            if(existingCourse != null)
+                {
+                ViewBag.Message = "CourseCode already exists";
+                return View();
+                }
             _managementContext.Courses.Add(course);
             _managementContext.SaveChanges();
             return RedirectToAction("Index");

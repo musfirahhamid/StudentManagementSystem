@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "DeletedList";
+}
+
+<h2>DeletedList</h2>
+
+<h2>Get All Student</h2>
+
+<table class="table text-center" border="1">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center">First Name</th>
+            <th scope="col" class="text-center">Last Name</th>
+            <th scope="col" class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var student in Model)
+            {
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.FirstName</td>
+                <td>@student.LastName</td>
+                <td>
+                    <a href="@Url.Action("RestoreStudent","Student", new { id = student.Id })"><i class="fa-solid fa-rotate-right" style="font-size:20px;"></i>Restore</a>
+                    &emsp; <a href="@Url.Action("ViewStudent", "Student", new { id= student.Id })"><i class="fa-solid fa-eye" style="font-size:20px;"></i></a>
+                    &emsp; <a href="@Url.Action("Delete","Student",new{id=student.Id })"> <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>

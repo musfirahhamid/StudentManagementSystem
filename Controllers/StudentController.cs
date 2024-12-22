@@ -17,10 +17,28 @@ namespace StudentManagementSystem.Controllers
             _managementContext = new ManagementContext();
         }
         // GET: Student
-        public ActionResult Index()
+        public ActionResult Index(bool? showActive , bool? showDeleted)
         {
-            var student = _managementContext.Students.Where(s => !s.IsDeleted).ToList();
-            return View(student);
+            var students = _managementContext.Students.AsQueryable();
+            if(showActive == true && showDeleted == true)
+                {
+                
+                }
+
+            else if(showActive==true)
+                {
+                students = students.Where(s => !s.IsDeleted);
+                }
+            else if(showDeleted == true)
+                {
+                students = students.Where(s => s.IsDeleted);
+                }
+            else
+                {
+                students = students.Where(s => !s.IsDeleted);
+                }
+            //var student = _managementContext.Students.Where(s => !s.IsDeleted).ToList();
+            return View(students.ToList());
         }
 
         //public ActionResult GetStudent()
@@ -82,6 +100,23 @@ namespace StudentManagementSystem.Controllers
                 return HttpNotFound();
                 }
             student.IsDeleted = true;
+            _managementContext.SaveChanges();
+            return RedirectToAction("Index");
+            }
+
+        //Get Delete Student List
+        //[HttpGet]
+        //public ActionResult DeletedList()
+        //    {
+        //    var deletedStudent = _managementContext.Students.Where(d => d.IsDeleted).ToList();
+        //    return View(deletedStudent);
+        //    }
+
+        //Restore Deleted Student
+         public ActionResult RestoreStudent(Student student)
+            {
+            var restoreStudent = _managementContext.Students.FirstOrDefault(s => s.Id == student.Id);
+            restoreStudent.IsDeleted = false;
             _managementContext.SaveChanges();
             return RedirectToAction("Index");
             }

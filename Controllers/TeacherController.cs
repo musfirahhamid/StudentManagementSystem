@@ -13,10 +13,27 @@ namespace StudentManagementSystem.Controllers
             _managementContext = new ManagementContext();
             }
         // GET: Teacher
-        public ActionResult Index()
+        public ActionResult Index(bool? showActive, bool? showDeleted)
             {
-            var teacher = _managementContext.Teachers.Where(t => !t.IsDeleted).ToList();
-            return View(teacher);
+            var teacher = _managementContext.Teachers.AsQueryable();
+            if(showActive == true && showDeleted==true)
+                {
+
+                }
+            else if(showActive == true)
+                {
+                teacher=teacher.Where(t => !t.IsDeleted);
+                }
+            else if(showDeleted == true)
+                {
+                teacher=teacher.Where(t => t.IsDeleted);
+                }
+            else
+                {
+                teacher= teacher.Where(t => !t.IsDeleted);
+                }
+            //var teacher = _managementContext.Teachers.Where(t => !t.IsDeleted).ToList();
+            return View(teacher.ToList());
             }
 
         //public ActionResult GetTeacher()
@@ -78,6 +95,19 @@ namespace StudentManagementSystem.Controllers
                 return HttpNotFound();
                 }
             teacher.IsDeleted = true;
+            _managementContext.SaveChanges();
+            return RedirectToAction("Index");
+            }
+
+        //Restore Teacher
+        public ActionResult RestoreTeacher(int id)
+            {
+            var teacher = _managementContext.Teachers.FirstOrDefault(t => t.Id==id);
+            if(teacher== null)
+                {
+                return HttpNotFound();
+                }
+            teacher.IsDeleted = false;
             _managementContext.SaveChanges();
             return RedirectToAction("Index");
             }

@@ -3,31 +3,55 @@
     ViewBag.Title = "Index";
 }
 
+<div>
+    <form method="get" action="@Url.Action("Index")">
+        <label>
+            <input type="checkbox" name="showActive" value="true" @(Request.QueryString["showActive"] == "true" ? "checked" : "") />
+            Active Teachers
+        </label>
+        <label>
+            <input type="checkbox" name="showDeleted" value="true"
+                   @(Request.QueryString["showDeleted"] == "true" ? "checked" : "") />
+            Deleted Teachers
+        </label>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+</div>
+
 <h2>Get All Teacher</h2>
 <div style="text-align: right; margin: 20px;">
     <button onclick="location.href='@Url.Action("Create","Teacher")'" class="btn btn-success right">Create New Teacher</button>
 </div>
-    <table class="table text-center" border="1">
-        <thead>
+<table class="table text-center" border="1">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center">First Name</th>
+            <th scope="col" class="text-center">Last Name</th>
+            <th scope="col" class="text-center">Qualification</th>
+            <th scope="col" class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var teacher in Model)
+            {
             <tr>
-                <th scope="col" class="text-center">#</th>
-                <th scope="col" class="text-center">First Name</th>
-                <th scope="col" class="text-center">Last Name</th>
-                <th scope="col" class="text-center">Qualification</th>
-                <th scope="col" class="text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var teacher in Model)
-                {
-                <tr>
-                    <td>@teacher.Id</td>
-                    <td>@teacher.FirstName</td>
-                    <td>@teacher.LastName</td>
-                    <td>@teacher.Qualification</td>
-                    <td><a href="@Url.Action("ViewTeacher", "Teacher", new { id= teacher.Id})"> <i class="fa-solid fa-eye" style="font-size:20px;"></i></a> &emsp; <a href="@Url.Action("Update", "Teacher", new { id=teacher.Id})"> <i class="fa-solid fa-pencil" style="font-size:20px;"></i></a> &emsp; <a href="@Url.Action("Delete", "Teacher", new { id= teacher.Id})">  <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a></td>
+                <td>@teacher.Id</td>
+                <td>@teacher.FirstName</td>
+                <td>@teacher.LastName</td>
+                <td>@teacher.Qualification</td>
+                <td>
+                    <a href="@Url.Action("ViewTeacher", "Teacher", new { id= teacher.Id})"> <i class="fa-solid fa-eye" style="font-size:20px;"></i></a> &emsp; <a href="@Url.Action("Update", "Teacher", new { id=teacher.Id})"> <i class="fa-solid fa-pencil" style="font-size:20px;"></i></a> &emsp; <a href="@Url.Action("Delete", "Teacher", new { id= teacher.Id})">  <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a> &emsp;
+                    @if(teacher.IsDeleted) // Only show Restore button for deleted students
+                        {
+                        <a href="@Url.Action("RestoreTeacher", "Teacher", new { id = teacher.Id })">
+                            <i class="fa-solid fa-rotate-right" style="font-size:20px;"></i>
+                        </a>
+                        }
+                </td>
 
-                </tr>
-                }
-        </tbody>
-    </table>
+
+            </tr>
+            }
+    </tbody>
+</table>
