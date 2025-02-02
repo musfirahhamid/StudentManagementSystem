@@ -2,8 +2,15 @@
 @{
     ViewBag.Title = "ViewTeacher";
 }
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<h2>ViewTeacher</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Teacher")">Home</a></li>
+        <li class="breadcrumb-item active"><a href="#">View</a></li>
+    </ol>
+</nav>
+
 
 <table class="table">
     <thead>
@@ -16,14 +23,14 @@
         </tr>
     </thead>
     <tbody>
-       
-            <tr>
-                <td>@Model.Id</td>
-                <td>@Model.FirstName</td>
-                <td>@Model.LastName</td>
-                <td>@Model.Qualification</td>
-                <td><a href="@Url.Action("Index","Teacher")">Go to List</a></td>
-            </tr>
-        
+
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.FirstName</td>
+            <td>@Model.LastName</td>
+            <td>@Model.Qualification</td>
+            <td><a href="@Url.Action("Index","Teacher")">Go to List</a></td>
+        </tr>
+
     </tbody>
 </table>

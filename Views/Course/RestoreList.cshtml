@@ -1,0 +1,44 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.Course>
+@{
+    ViewBag.Title = "RetoreList";
+}
+
+<h2>RestoreList</h2>
+  @if(ViewBag.Message != null)
+                {
+<div class="alert alert-info">@ViewBag.Message</div>
+}
+<table class="table text-center" border="1">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center">Course Code</th>
+            <th scope="col" class="text-center">Course Name</th>
+            <th scope="col" class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var course in Model)
+            {
+
+            <tr>
+                <td>@course.Id</td>
+                <td>@course.CourseCode</td>
+                <td>@course.CourseName</td>
+                <td>
+                    <a href="@Url.Action("ViewDetails","Course", new {id=course.Id })"><i class="fa-solid fa-eye" style="font-size:20px;"></i></a> &emsp;
+                    <a href="@Url.Action("Update","Course", new { id = course.Id })"><i class="fa-solid fa-pencil" style="font-size:20px;"></i></a>&emsp;
+                    <a href="@Url.Action("Delete","Course", new {id= course.Id })"> <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a> &emsp;
+                    @if(course.IsDeleted)
+                        {
+                        <a href="@Url.Action("Restore", "Course", new { id = course.Id })">
+                            <i class="fa-solid fa-rotate-right" style="font-size:20px;"></i>
+                        </a>
+                        }
+                </td>
+
+
+            </tr>
+            }
+    </tbody>
+</table>

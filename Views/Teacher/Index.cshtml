@@ -3,55 +3,91 @@
     ViewBag.Title = "Index";
 }
 
-<div>
-    <form method="get" action="@Url.Action("Index")">
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@{ if(TempData["FlashMessage"] != null)
+        {
+        <div id="flashMessage" class="alert alert-success" role="alert">
+            @TempData["FlashMessage"]
+        </div> } }
+
+
+<nav>
+    <ol class="breadcrumb">
+        <!--Following action will lead to dashboard in future-->
+        <li class="breadcrumb-item"><a href="@Url.Action("Create", "Teacher")" class="breadcrumb-decor">Home</a></li>
+        <li class="breadcrumb-item active" >Teachers</li>
+    </ol>
+</nav>
+
+<div class="banner-div">
+    <h3>Teachers</h3>
+    <button onclick="location.href='@Url.Action("Create","Teacher")'" class="btn btn-dark">
+        <i class="bi-plus"></i> Add New
+    </button>
+</div>
+
+
+
+<div class="radio-filter">
+    <form method="get" action="@Url.Action("Index", "Teacher")">
         <label>
-            <input type="checkbox" name="showActive" value="true" @(Request.QueryString["showActive"] == "true" ? "checked" : "") />
-            Active Teachers
+            <input class="form-check-input" type="radio" name="showFilter" value="active" @(ViewBag.ShowActive == true ? "checked" : "") onchange="this.form.submit();" />
+           Show Active
         </label>
         <label>
-            <input type="checkbox" name="showDeleted" value="true"
-                   @(Request.QueryString["showDeleted"] == "true" ? "checked" : "") />
-            Deleted Teachers
+            <input class="form-check-input" type="radio" name="showFilter" value="deleted" @(ViewBag.ShowDeleted == true ? "checked" : "") onchange="this.form.submit();" />
+            Show Deleted
         </label>
-        <button type="submit" class="btn btn-primary">Filter</button>
     </form>
+
 </div>
 
-<h2>Get All Teacher</h2>
-<div style="text-align: right; margin: 20px;">
-    <button onclick="location.href='@Url.Action("Create","Teacher")'" class="btn btn-success right">Create New Teacher</button>
-</div>
-<table class="table text-center" border="1">
-    <thead>
-        <tr>
-            <th scope="col" class="text-center">#</th>
-            <th scope="col" class="text-center">First Name</th>
-            <th scope="col" class="text-center">Last Name</th>
-            <th scope="col" class="text-center">Qualification</th>
-            <th scope="col" class="text-center">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var teacher in Model)
-            {
+<div class="card-body">
+    <table class="table text-center" border="1">
+        <thead class="table-dark">
             <tr>
-                <td>@teacher.Id</td>
-                <td>@teacher.FirstName</td>
-                <td>@teacher.LastName</td>
-                <td>@teacher.Qualification</td>
-                <td>
-                    <a href="@Url.Action("ViewTeacher", "Teacher", new { id= teacher.Id})"> <i class="fa-solid fa-eye" style="font-size:20px;"></i></a> &emsp; <a href="@Url.Action("Update", "Teacher", new { id=teacher.Id})"> <i class="fa-solid fa-pencil" style="font-size:20px;"></i></a> &emsp; <a href="@Url.Action("Delete", "Teacher", new { id= teacher.Id})">  <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a> &emsp;
-                    @if(teacher.IsDeleted) // Only show Restore button for deleted students
-                        {
-                        <a href="@Url.Action("RestoreTeacher", "Teacher", new { id = teacher.Id })">
-                            <i class="fa-solid fa-rotate-right" style="font-size:20px;"></i>
-                        </a>
-                        }
-                </td>
-
-
+                <th scope="col" class="text-center">First Name</th>
+                <th scope="col" class="text-center">Last Name</th>
+                <th scope="col" class="text-center">Qualification</th>
+                <th scope="col" class="text-center">Action</th>
             </tr>
-            }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach(var teacher in Model)
+                {
+                <tr>
+                    <td>@teacher.FirstName</td>
+                    <td>@teacher.LastName</td>
+                    <td>@teacher.Qualification</td>
+                    <td>
+                        <a href="@Url.Action("ViewTeacher", "Teacher", new { id= teacher.Id})" class="action-icon"> <i class="bi-eye"></i></a> &emsp; <a href="@Url.Action("Update", "Teacher", new { id=teacher.Id})" class="action-icon"> <i class="bi-pencil" ></i></a> &emsp; <a href="@Url.Action("Delete", "Teacher", new { id= teacher.Id})" class="action-icon">  <i class="bi-x-circle"></i></a> &emsp;
+                        @if(teacher.IsDeleted) // Only show Restore button for deleted Teachder
+                            {
+                            <a href="@Url.Action("RestoreTeacher", "Teacher", new { id = teacher.Id })" class="action-icon">
+                                <i class="bi-arrow-clockwise"></i>
+                            </a>
+                            }
+                    </td>
+
+
+                </tr>
+                }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    // Automatically hide the flash message after 2 seconds (2000ms)
+    setTimeout(function () {
+        var flashMessage = document.getElementById('flashMessage');
+        if (flashMessage) {
+            flashMessage.style.transition = "opacity 0.5s ease-out"; // Fade out effect
+            flashMessage.style.opacity = "0"; // Set opacity to 0
+            setTimeout(function () {
+                flashMessage.style.display = "none"; // Remove from DOM after fade out
+            }, 500); // Wait for fade-out effect to complete
+        }
+    }, 2000); // Delay before hiding
+</script>

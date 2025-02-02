@@ -1,4 +1,5 @@
 ﻿using StudentManagementSystem.DAL;
+using StudentManagementSystem.GenericRepository;
 using StudentManagementSystem.Models;
 using System.Linq;
 using System.Web.Mvc;
@@ -7,49 +8,50 @@ namespace StudentManagementSystem.Controllers
     {
     public class TeacherController : Controller
         {
-        private  readonly ManagementContext _managementContext;
+        //Created a variable to hold the instance of GenericRepository
+        private IGenericRepository<Teacher> genericRepository = null;
+
+        //Initializing the genericRepository through a parameterless constructor
         public TeacherController()
             {
-            _managementContext = new ManagementContext();
+            this.genericRepository = new GenericRepository<Teacher>();
             }
-        // GET: Teacher
-        public ActionResult Index(bool? showActive, bool? showDeleted)
-            {
-            var teacher = _managementContext.Teachers.AsQueryable();
-            if(showActive == true && showDeleted==true)
-                {
 
-                }
-            else if(showActive == true)
+        //The following Action Method is used to return all the teacher
+        public ActionResult Index(string showFilter)
+            {
+            if(string.IsNullOrEmpty(showFilter))
                 {
-                teacher=teacher.Where(t => !t.IsDeleted);
+                showFilter = "active"; // Default value
                 }
-            else if(showDeleted == true)
+            var teacher = genericRepository.GetAllActive().AsQueryable();
+
+            if(showFilter == "deleted")
                 {
-                teacher=teacher.Where(t => t.IsDeleted);
+                teacher = genericRepository.GetAllDeleted().AsQueryable();
                 }
             else
                 {
-                teacher= teacher.Where(t => !t.IsDeleted);
+                teacher = genericRepository.GetAllActive().AsQueryable();
                 }
-            //var teacher = _managementContext.Teachers.Where(t => !t.IsDeleted).ToList();
+
+            // Pass filter values to the view
+            ViewBag.ShowActive = showFilter != "deleted";
+            ViewBag.ShowDeleted = showFilter == "deleted";
+
             return View(teacher.ToList());
             }
 
-        //public ActionResult GetTeacher()
-        //    {
-        //    var teacher = _managementContext.Teachers.Where(t=> !t.IsDeleted).ToList();
-        //    return View(teacher);
-        //    }
 
+        //The following Action Method is used to return specific teacher based on id.
         public ActionResult ViewTeacher(int id)
             {
-            var teacher = _managementContext.Teachers.FirstOrDefault(t => t.Id == id);
+            var teacher = genericRepository.GetById(id);
             return View(teacher);
             }
 
-
-        //Add teacher
+        //The following Action Method is used to add new record.
+        //Validation check needs to be added
         [HttpGet]
         public ActionResult Create()
             {
@@ -59,58 +61,50 @@ namespace StudentManagementSystem.Controllers
         [HttpPost]
         public ActionResult Create(Teacher teacher)
             {
-            _managementContext.Teachers.Add(teacher);
-            _managementContext.SaveChanges();
-            return RedirectToAction("Index");
+            genericRepository.Insert(teacher);
+            genericRepository.Save();
+            return RedirectToAction("Index","Teacher");
             }
 
-        //Update teacher
-        //Removed Attribute
+        //The following Action Method is used to update existing record.
+        [HttpGet]
         public ActionResult Update(int id)
             {
-            var teacher = _managementContext.Teachers.FirstOrDefault(t=>t.Id==id);
-            if(teacher == null)
-                {
-                return HttpNotFound();
-                }
+            Teacher teacher = genericRepository.GetById(id);
             return View(teacher);
             }
 
         [HttpPost]
         public ActionResult Update(Teacher teacher)
             {
-            var entry = _managementContext.Entry(teacher);
-            entry.State = System.Data.Entity.EntityState.Modified;
-            _managementContext.SaveChanges();
-            return RedirectToAction("Index");
+            genericRepository.Update(teacher);
+            genericRepository.Save();
+            return RedirectToAction("Index", "Teacher");
             }
 
-        //Delete Teacher
-        //Removed Attribute
+        //The following Action Method is used to delete existing record.
         public ActionResult Delete(int id)
             {
-            var teacher = _managementContext.Teachers.Find(id);
-            if(teacher == null)
-                {
-                return HttpNotFound();
-                }
-            teacher.IsDeleted = true;
-            _managementContext.SaveChanges();
-            return RedirectToAction("Index");
+            genericRepository.Delete(id);
+            genericRepository.Save();
+            TempData["FlashMessage"] = "Deleted successfully.";
+            return RedirectToAction("Index", "Teacher", new { showFilter = "active" });
             }
 
-        //Restore Teacher
+        //The following Action Method is used to get all deleted record.
+        public ActionResult DeletedList()
+            {
+            var teacher = genericRepository.GetAllDeleted();
+            return View(teacher);
+            }
+
+        //The following Action Method is used to restore deleted record.
         public ActionResult RestoreTeacher(int id)
             {
-            var teacher = _managementContext.Teachers.FirstOrDefault(t => t.Id==id);
-            if(teacher== null)
-                {
-                return HttpNotFound();
-                }
-            teacher.IsDeleted = false;
-            _managementContext.SaveChanges();
-            return RedirectToAction("Index");
+            genericRepository.Restore(id);
+            genericRepository.Save();
+            TempData["FlashMessage"] = "Restored successfully.";
+            return RedirectToAction("Index", "Teacher", new { showFilter = "deleted" });
             }
-
         }
-}
+    }

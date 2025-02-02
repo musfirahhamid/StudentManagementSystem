@@ -16,10 +16,27 @@ namespace StudentManagementSystem.Controllers
             _managementContext = new ManagementContext();
             }
         // GET: Course
-        public ActionResult Index()
+        public ActionResult Index(bool? showActive , bool? showDeleted)
         {
-            var course = _managementContext.Courses.Where(c=> !c.IsDeleted).ToList();
-            return View(course);
+            var course = _managementContext.Courses.AsQueryable();
+            if(showActive == true && showDeleted == true)
+                {
+
+                }
+            else if(showActive == true)
+                {
+                course = course.Where(c => !c.IsDeleted);
+                }
+            else if(showDeleted==true)
+                {
+                course = course.Where(c => c.IsDeleted);
+                }
+            else
+                {
+                course = course.Where(c => !c.IsDeleted);
+                }
+            
+            return View(course.ToList());
         }
 
         //View Details
@@ -43,7 +60,7 @@ namespace StudentManagementSystem.Controllers
         [HttpPost]
         public ActionResult Create(Course course)
             {
-           var existingCourse = _managementContext.Courses.FirstOrDefault(c=>c.CourseCode== course.CourseCode);
+           var existingCourse = _managementContext.Courses.FirstOrDefault(c=>c.CourseCode== course.CourseCode && c.IsDeleted==false);
             if(existingCourse != null)
                 {
                 ViewBag.Message = "CourseCode already exists";
@@ -74,12 +91,29 @@ namespace StudentManagementSystem.Controllers
             return RedirectToAction("Index");
             }
 
+        //Delete Course
         public ActionResult Delete(int id)
             {
             var course = _managementContext.Courses.FirstOrDefault(c => c.Id == id);
             course.IsDeleted = true;
             _managementContext.SaveChanges();
             return RedirectToAction("Index");
+            }
+
+        //Restore Course
+        public ActionResult Restore(int id)
+            {
+            var course = _managementContext.Courses.FirstOrDefault(c => c.Id == id);
+            course.IsDeleted = false;
+            _managementContext.SaveChanges();
+            return RedirectToAction("Index");
+            }
+
+        //Restore COurse List
+        public ActionResult RestoreList()
+            {
+            var course=_managementContext.Courses.Where(c => c.IsDeleted).ToList();
+            return View(course);
             }
     }
 }

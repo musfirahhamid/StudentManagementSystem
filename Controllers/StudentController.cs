@@ -1,4 +1,5 @@
 ﻿using StudentManagementSystem.DAL;
+using StudentManagementSystem.GenericRepository;
 using StudentManagementSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -10,115 +11,101 @@ namespace StudentManagementSystem.Controllers
 {
     public class StudentController : Controller
     {
-      
-        private readonly ManagementContext _managementContext;
+        //Created a variable to hold the instance of GenericRepository
+        private IGenericRepository<Student> genericRepository = null;
+        //Initializing the genericRepository through a parameterless constructor
         public StudentController()
-        {
-            _managementContext = new ManagementContext();
-        }
-        // GET: Student
-        public ActionResult Index(bool? showActive , bool? showDeleted)
-        {
-            var students = _managementContext.Students.AsQueryable();
-            if(showActive == true && showDeleted == true)
-                {
-                
-                }
+            {
+            this.genericRepository = new GenericRepository<Student>();
+            }
 
-            else if(showActive==true)
+        //The following Action Method is used to return all the student
+        [HttpGet]
+        public ActionResult Index(string showFilter)
+            {
+            if(string.IsNullOrEmpty(showFilter))
                 {
-                students = students.Where(s => !s.IsDeleted);
+                showFilter = "active"; // Default value
                 }
-            else if(showDeleted == true)
+            var student = genericRepository.GetAllActive().AsQueryable();
+
+            if(showFilter == "deleted")
                 {
-                students = students.Where(s => s.IsDeleted);
+                student = genericRepository.GetAllDeleted().AsQueryable();
                 }
             else
                 {
-                students = students.Where(s => !s.IsDeleted);
+                student = genericRepository.GetAllActive().AsQueryable();
                 }
-            //var student = _managementContext.Students.Where(s => !s.IsDeleted).ToList();
-            return View(students.ToList());
-        }
 
-        //public ActionResult GetStudent()
-        //{
-        //    var student = _managementContext.Students.Where(s=> !s.IsDeleted).ToList();
-        //    return View(student);
-        //}
+            // Pass filter values to the view
+            ViewBag.ShowActive = showFilter != "deleted";
+            ViewBag.ShowDeleted = showFilter == "deleted";
 
+            return View(student.ToList());
+            }
+
+        //The following Action Method is used to return List of All deleted student
+        public ActionResult DeletedList()
+            {
+            var model = genericRepository.GetAllDeleted();
+            return View(model);
+            }
+
+        //The following action method is used to restore the student
+        public ActionResult RestoreStudent(int id)
+            {
+             genericRepository.Restore(id);
+            genericRepository.Save();
+            TempData["FlashMessage"] = "Restored successfully.";
+
+            return RedirectToAction("Index", "Student",new {showFilter="deleted" });
+            
+            }
+
+        //The following Action Method is used to return specific student
         public ActionResult ViewStudent(int id)
-        {
-            var student = _managementContext.Students.FirstOrDefault(s => s.Id == id);
-            return View(student);
-        }
-
-
-        //Add Student
+            {
+            var model = genericRepository.GetById(id);
+            return View(model);
+            }
         [HttpGet]
         public ActionResult Create()
-        {
+            {
             return View();
-        }
+            }
 
-        [HttpPost]
-        public ActionResult Create(Student student)
-        {
-            _managementContext.Students.Add(student);
-            _managementContext.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        //Update Student
-        //Removed Attribute
+            [HttpPost]
+            public ActionResult Create(Student model)
+                {
+            genericRepository.Insert(model);
+            genericRepository.Save();
+                    return RedirectToAction("Index", "Student");
+                    }
+        //The following Action Method will open the Edit Student view based on the StudentId
+        [HttpGet]
         public ActionResult Update(int id)
             {
-            var student = _managementContext.Students.FirstOrDefault(s => s.Id == id);
-            if(student == null)
-                {
-                return HttpNotFound();
-                }
-            return View(student);
+            Student model = genericRepository.GetById(id);
+            return View(model);
             }
-
+        //The following Action Method will be called when we  click on the Submit button on the Edit Student view
         [HttpPost]
-        public ActionResult Update(Student student)
+        public ActionResult Update(Student model)
             {
-            var entry = _managementContext.Entry(student);
-            entry.State = System.Data.Entity.EntityState.Modified;
-            _managementContext.SaveChanges();
-            return RedirectToAction("Index");
+            genericRepository.Update(model);
+            genericRepository.Save();
+            return RedirectToAction("Index","Student");
             }
 
-        //Delete Student
-        //Removed Attribute
+        
+        //The following Action Method will be called when you click on the Submit button on the Delete Student view
         public ActionResult Delete(int id)
             {
-            var student = _managementContext.Students.Find(id);
-            if(student == null)
-                {
-                return HttpNotFound();
-                }
-            student.IsDeleted = true;
-            _managementContext.SaveChanges();
-            return RedirectToAction("Index");
-            }
+            genericRepository.Delete(id);
+            genericRepository.Save();
+            TempData["FlashMessage"] = "Deleted successfully.";
 
-        //Get Delete Student List
-        //[HttpGet]
-        //public ActionResult DeletedList()
-        //    {
-        //    var deletedStudent = _managementContext.Students.Where(d => d.IsDeleted).ToList();
-        //    return View(deletedStudent);
-        //    }
-
-        //Restore Deleted Student
-         public ActionResult RestoreStudent(Student student)
-            {
-            var restoreStudent = _managementContext.Students.FirstOrDefault(s => s.Id == student.Id);
-            restoreStudent.IsDeleted = false;
-            _managementContext.SaveChanges();
-            return RedirectToAction("Index");
-            }
-    }
-}
+            return RedirectToAction("Index", "Student", new {showFilter="active" });
+            }        }
+        }

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.Teacher>
+@{
+    ViewBag.Title = "DeletedList";
+}
+
+@{ if(TempData["FlashMessage"] != null)
+        {
+        <div id="flashMessage" class="alert alert-success" role="alert">
+            @TempData["FlashMessage"]
+        </div> } }
+<h2>DeletedList</h2>
+
+<h2>List All Deleted Student</h2>
+
+<table class="table text-center" border="1">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center">First Name</th>
+            <th scope="col" class="text-center">Last Name</th>
+            <th scope="col" class="text-center">Qualification</th>
+            <th scope="col" class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var teacher in Model)
+            {
+            <tr>
+                <td>@teacher.Id</td>
+                <td>@teacher.FirstName</td>
+                <td>@teacher.LastName</td>
+                <td>@teacher.Qualification</td>
+                <td>
+                    <a href="@Url.Action("RestoreTeacher","Teacher", new { id = teacher.Id })"><i class="fa-solid fa-rotate-right" style="font-size:20px;"></i>Restore</a>
+                    &emsp; <a href="@Url.Action("ViewTeacher", "Teacher", new { id= teacher.Id })"><i class="fa-solid fa-eye" style="font-size:20px;"></i></a>
+                    &emsp; <a href="@Url.Action("Delete","Teacher",new{id=teacher.Id })"> <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>
+
+<script>
+    // Automatically hide the flash message after 2 seconds (2000ms)
+    setTimeout(function () {
+        var flashMessage = document.getElementById('flashMessage');
+        if (flashMessage) {
+            flashMessage.style.transition = "opacity 0.5s ease-out"; // Fade out effect
+            flashMessage.style.opacity = "0"; // Set opacity to 0
+            setTimeout(function () {
+                flashMessage.style.display = "none"; // Remove from DOM after fade out
+            }, 500); // Wait for fade-out effect to complete
+        }
+    }, 2000); // Delay before hiding
+</script>

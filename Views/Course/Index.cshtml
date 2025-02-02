@@ -4,6 +4,19 @@
 }
 
 <h2>Index</h2>
+<div>
+    <form method="get" action="@Url.Action("Index")">
+        <label>
+            <input type="checkbox" name="showActive" value="true" @(Request.QueryString["showActive"] == "true" ? "checked" : "") />
+            Active
+        </label> &emsp;
+        <label>
+            <input type="checkbox" name="showDeleted" value="true" @(Request.QueryString["showDeleted"] == "true" ? "checked" : "") />
+            Deleted
+        </label> &emsp;
+        <button type="submit">Filter</button>
+    </form>
+</div>
 
 <div style="text-align: right; margin: 20px;">
     <button onclick="location.href = '@Url.Action("Create","Course")'" class="btn btn-success">Add New</button>
@@ -26,7 +39,18 @@
                 <td>@course.Id</td>
                 <td>@course.CourseCode</td>
                 <td>@course.CourseName</td>
-                <td><a href="@Url.Action("ViewDetails","Course", new {id=course.Id })"><i class="fa-solid fa-eye" style="font-size:20px;"></i></a> &emsp;<a href="@Url.Action("Update","Course", new { id = course.Id })"><i class="fa-solid fa-pencil" style="font-size:20px;"></i></a>&emsp; <a href="@Url.Action("Delete","Course", new {id= course.Id })"> <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a></td>
+                <td>
+                    <a href="@Url.Action("ViewDetails","Course", new {id=course.Id })"><i class="fa-solid fa-eye" style="font-size:20px;"></i></a> &emsp;
+                    <a href="@Url.Action("Update","Course", new { id = course.Id })"><i class="fa-solid fa-pencil" style="font-size:20px;"></i></a>&emsp;
+                    <a href="@Url.Action("Delete","Course", new {id= course.Id })"> <i class="fa-solid fa-xmark" style="font-size:20px; color:red;"></i></a> &emsp;
+                    @if(course.IsDeleted)
+                        {
+                        <a href="@Url.Action("Restore", "Course", new { id = course.Id })">
+                            <i class="fa-solid fa-rotate-right" style="font-size:20px;"></i>
+                        </a>
+                        }
+                </td>
+                
 
             </tr>
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentManagementSystem.GenericRepository;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Web;
 
 namespace StudentManagementSystem.Models
 {
-    public class Student
+    public class Student:ICommon
     {
         [Key]
         public int Id { get; set; }
