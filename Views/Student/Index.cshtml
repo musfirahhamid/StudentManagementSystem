@@ -20,9 +20,19 @@
 
 <div class="banner-div">
     <h3>Students</h3>
-    <button onclick="location.href='@Url.Action("Create","Student")'" class="btn btn-dark">
-        <i class="bi-plus"></i> Add New
-    </button>
+    <div>
+        <form method="get" action="@Url.Action("Index")" class="mb-3">
+            <input type="hidden" name="showFilter" value="@(ViewBag.ShowDeleted ? "deleted" : "active")" />
+
+            <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control" placeholder="Search by name..." />
+
+            <button type="submit" class="btn btn-primary mt-2">Search</button>
+        </form>
+        <button onclick="location.href='@Url.Action("Create","Student")'" class="btn btn-dark">
+            <i class="bi-plus"></i> Add New
+        </button>
+    </div>
+
 </div>
 
 <div class="radio-filter">
@@ -38,36 +48,89 @@
     </form>
 </div>
 
-<div class="card-body">
-    <table class="table text-center" border="1">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col" class="text-center">First Name</th>
-                <th scope="col" class="text-center">Last Name</th>
-                <th scope="col" class="text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var student in Model)
-                {
+@*<div class="card-body">
+        <table class="table text-center" border="1">
+            <thead class="table-dark">
                 <tr>
-                    <td>@student.FirstName</td>
-                    <td>@student.LastName</td>
-                    <td>
-                        <a href="@Url.Action("ViewStudent", "Student", new { id= student.Id })" class="action-icon"> <i class="bi-eye"></i></a>
-                        &emsp; <a href="@Url.Action("Update","Student", new { id = student.Id })" class="action-icon"> <i class="bi-pencil"></i></a>
-                        &emsp;
-                               <a href="@Url.Action("Delete", "Student", new { id = student.Id })" class="action-icon"> <i class="bi-x-circle"></i></a>&emsp;
-                        @if(student.IsDeleted) // Only show Restore button for deleted students
-                            {
-                            <a href="@Url.Action("RestoreStudent", "Student", new { id = student.Id })" class="action-icon">
-                                <i class="bi-arrow-clockwise"></i>
-                            </a>}
-                    </td>
+                    <th scope="col" class="text-center">First Name</th>
+                    <th scope="col" class="text-center">Last Name</th>
+                    <th scope="col" class="text-center">Action</th>
                 </tr>
-                }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach(var student in Model)
+                    {
+                    <tr>
+                        <td>@student.FirstName</td>
+                        <td>@student.LastName</td>
+                        <td>
+                            <a href="@Url.Action("ViewStudent", "Student", new { id= student.Id })" class="action-icon"> <i class="bi-eye"></i></a>
+                            &emsp; <a href="@Url.Action("Update","Student", new { id = student.Id })" class="action-icon"> <i class="bi-pencil"></i></a>
+                            &emsp;
+                            <a href="@Url.Action("Delete", "Student", new { id = student.Id })" class="action-icon"> <i class="bi-x-circle"></i></a>&emsp;
+                            @if(student.IsDeleted) // Only show Restore button for deleted students
+                                {
+                                <a href="@Url.Action("RestoreStudent", "Student", new { id = student.Id })" class="action-icon">
+                                    <i class="bi-arrow-clockwise"></i>
+                                </a>}
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>*@
+
+
+@foreach(var student in Model)
+    {
+    <div class="header-cols">
+        <div class="info-hold">
+            <div class="left-col">
+                <p><span>Full Name: </span>@student.FirstName @student.LastName </p>
+                <p><span>Email: </span> @student.Email</p>
+                <p><span>Phone: </span> @student.PhoneNumber</p>
+                <p><span>Session: </span> 4</p>
+                <p>
+                    <a href="@Url.Action("ViewStudent", "Student", new { id= student.Id })" class="action-icon"> <i class="bi-eye"></i></a>
+                    <a href="@Url.Action("Update","Student", new { id = student.Id })" class="action-icon"> <i class="bi-pencil"></i></a>
+                    <a href="@Url.Action("Delete", "Student", new { id = student.Id })" class="action-icon"> <i class="bi-x-circle"></i></a>&emsp;
+                    @if(student.IsDeleted) // Only show Restore button for deleted students
+                        {
+                        <a href="@Url.Action("RestoreStudent", "Student", new { id = student.Id })" class="action-icon">
+                            <i class="bi-arrow-clockwise"></i>
+                        </a>}
+                </p>
+            </div>
+            <div class="right-col">
+                <div class="col-items">
+                    <div class="item"><strong>Major</strong><br>Computer Science</div>
+                    <div class="item"><strong>Last Updated</strong><br>@student.UpdatedDate</div>
+                    <div class="item"><strong>Result Status</strong><br>Average</div>
+                    <div class="item"><strong>Latest Percentage</strong><br>64%</div>
+                    <div class="item"><strong>Next Exam Date</strong><br>1/6/2025</div>
+                    <div class="item"><strong>Supervisor</strong><br>Musfirah Hamid</div>
+                    <div class="item"><strong>No. of Courses</strong><br>4</div>
+                    <div class="item"><strong>Credit Hours</strong><br>20</div>
+                    <div class="item"><strong>Past Record</strong><br>Ok</div>
+                    <div class="item"><strong>Remarks</strong><br>no remarks</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+<div>
+    @if(ViewBag.CurrentPage > 1)
+        {
+        <a href="@Url.Action("Index", new { showFilter = ViewBag.ShowActive ? "active" : "deleted", searchTerm = ViewBag.SearchTerm, page = ViewBag.CurrentPage - 1 })"><i class=" bi-arrow-left-circle"></i></a>
+        }
+
+    Page @ViewBag.CurrentPage of @ViewBag.TotalPages
+
+    @if(ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+        <a href="@Url.Action("Index", new { showFilter = ViewBag.ShowActive ? "active" : "deleted", searchTerm = ViewBag.SearchTerm, page = ViewBag.CurrentPage + 1 })"><i class=" bi-arrow-right-circle"></i></a>
+        }
 </div>
 
 

@@ -17,26 +17,75 @@
 </div>
 
 <div class="d-flex justify-content-center align-items-center mt-4">
-    <div class="card p-4 shadow-lg" style="width: 400px;">
+    <div class="card p-4 shadow-lg">
         @using(Html.BeginForm("Update", "Student", FormMethod.Post, new { @class = "row g-3" }))
             {
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="col-12">
-                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "form-label" })
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "form-label" })<sup>*</sup>
                 @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
 
-            <div class="col-12">
-                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "form-label" })
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "form-label" })<sup>*</sup>
                 @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
 
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "form-label" }) <sup>*</sup>
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.SSN, htmlAttributes: new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.SSN, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Zip, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.State, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Country, new { @class = "form-control" })
+            </div>
+
+            <!-- Address Field -->
+            <div class="col-12">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+            </div>
+
+            <!-- Submit Button -->
             <div class="text-center">
                 <input type="submit" value="Update" class="btn btn-primary" />
             </div>
+
             }
     </div>
 </div>

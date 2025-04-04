@@ -6,12 +6,11 @@ using System.Web;
 
 namespace StudentManagementSystem.Models
 {
-    public class Teacher:ICommon
+    public class Teacher:Common
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Qualification { get; set; }
-        public bool IsDeleted { get; set; }
+    
     }
 }

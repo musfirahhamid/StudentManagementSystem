@@ -165,7 +165,32 @@
     <Compile Include="Migrations\202412132324565_addedIsDeletedfield.Designer.cs">
       <DependentUpon>202412132324565_addedIsDeletedfield.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202502022117497_addedrequiredvalidation.cs" />
+    <Compile Include="Migrations\202502022117497_addedrequiredvalidation.Designer.cs">
+      <DependentUpon>202502022117497_addedrequiredvalidation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502071958133_newfieldsinstudent.cs" />
+    <Compile Include="Migrations\202502071958133_newfieldsinstudent.Designer.cs">
+      <DependentUpon>202502071958133_newfieldsinstudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502072104133_addederrormessage.cs" />
+    <Compile Include="Migrations\202502072104133_addederrormessage.Designer.cs">
+      <DependentUpon>202502072104133_addederrormessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502072115248_countryaddedinstudent.cs" />
+    <Compile Include="Migrations\202502072115248_countryaddedinstudent.Designer.cs">
+      <DependentUpon>202502072115248_countryaddedinstudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504042132015_updateddate.cs" />
+    <Compile Include="Migrations\202504042132015_updateddate.Designer.cs">
+      <DependentUpon>202504042132015_updateddate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504042149112_updatecommonmodel.cs" />
+    <Compile Include="Migrations\202504042149112_updatecommonmodel.Designer.cs">
+      <DependentUpon>202504042149112_updatecommonmodel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Student.cs" />
@@ -694,6 +719,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412132324565_addedIsDeletedfield.resx">
       <DependentUpon>202412132324565_addedIsDeletedfield.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502022117497_addedrequiredvalidation.resx">
+      <DependentUpon>202502022117497_addedrequiredvalidation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502071958133_newfieldsinstudent.resx">
+      <DependentUpon>202502071958133_newfieldsinstudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502072104133_addederrormessage.resx">
+      <DependentUpon>202502072104133_addederrormessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502072115248_countryaddedinstudent.resx">
+      <DependentUpon>202502072115248_countryaddedinstudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504042132015_updateddate.resx">
+      <DependentUpon>202504042132015_updateddate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504042149112_updatecommonmodel.resx">
+      <DependentUpon>202504042149112_updatecommonmodel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

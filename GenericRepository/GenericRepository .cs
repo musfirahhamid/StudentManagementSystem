@@ -1,4 +1,5 @@
 ﻿using StudentManagementSystem.DAL;
+using StudentManagementSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +9,7 @@ using System.Web;
 
 namespace StudentManagementSystem.GenericRepository
     {
-        public class GenericRepository<T> : IGenericRepository<T> where T : class, ICommon
+        public class GenericRepository<T> : IGenericRepository<T> where T :  Common
             {
             //The following variable is going to hold the StudentDBContext instance
             private ManagementContext _managementContext = null;
@@ -72,34 +73,40 @@ namespace StudentManagementSystem.GenericRepository
         //This method is going to remove the record from the table
         public void Delete(object id)
             {
-            // First, fetch the record from the table
             T existingRecord = table.Find(id);
             if(existingRecord != null)
                 {
                 existingRecord.IsDeleted = true;
-                    _managementContext.SaveChanges();
-                    }
-                else
-                    {
-                    throw new InvalidOperationException("Not Found.");
-                    }
+                _managementContext.Configuration.ValidateOnSaveEnabled = false; // Disable validation
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+                _managementContext.SaveChanges();
+                _managementContext.Configuration.ValidateOnSaveEnabled = true; // Re-enable validation
                 }
+            else
+                {
+                throw new InvalidOperationException("Not Found.");
+                }
+            }
+
 
         //This method is going to restore the record from the table
         public void Restore(object id)
             {
-            // First, fetch the record from the table
-            T deletedRecord = table.Find(id);
-            if(deletedRecord != null)
+            T existingRecord = table.Find(id);
+            if(existingRecord != null)
                 {
-                deletedRecord.IsDeleted = false;
-                    _managementContext.SaveChanges();
-                    }
-                else
-                    {
-                    throw new InvalidOperationException("Not Found.");
-                    }
+                existingRecord.IsDeleted = false;
+                _managementContext.Configuration.ValidateOnSaveEnabled = false; // Disable validation
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+                _managementContext.SaveChanges();
+                _managementContext.Configuration.ValidateOnSaveEnabled = true; // Re-enable validation
                 }
+            else
+                {
+                throw new InvalidOperationException("Not Found.");
+                }
+            }
+
         //This method will make the changes permanent in the database
         public void Save()
             {

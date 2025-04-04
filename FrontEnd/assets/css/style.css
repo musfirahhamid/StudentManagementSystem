@@ -20,6 +20,62 @@ body {
 }
 
 /*Musfirah's css*/
+.header-cols {
+    width: 100%;
+    border: 2px solid lightgray;
+    border-radius: 2px;
+    margin-top: 5px;
+}
+
+    .header-cols:hover {
+        border:3px solid #24afb2;
+    }
+    .header-cols:first-of-type {
+        border-top: 2px solid lightgray;
+    }
+
+    .info-hold {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px; /* Adjust spacing between columns */
+    }
+
+.left-col {
+    flex: 1; /* Takes up equal space */
+    max-width: 20%; /* Adjust width as needed */
+}
+.left-col p span{
+   font-weight:bold;
+   margin-bottom:-10px;
+  
+}
+    .left-col p {
+        margin-bottom: -1px;
+        font-size: 12px;
+    }
+
+.right-col {
+    flex: 1; /* Takes up equal space */
+}
+
+.col-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.item strong{
+    color:gray;
+    font-size:12px;
+}
+.item {
+    flex: 1 1 calc(20% - 20px);/* Two items per row */
+    font-size:12px;
+}
+
+sup {
+    color: red;
+}
 .banner-div {
     display: flex;
     justify-content: space-between;
@@ -33,6 +89,31 @@ body {
         margin: 0;
         color:oldlace;
     }
+.banner-div div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.banner-div form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.banner-div input {
+    padding: 5px;
+    margin-top:10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width:600px;
+}
+
+.banner-div button {
+    white-space: nowrap;
+
+}
 
 .radio-filter {
     text-align: left;
@@ -43,11 +124,10 @@ body {
     padding:0 10px;
 }
 .action-icon i {
-    font-size: 20px;
+    font-size: 15px;
     color: gray;
 }
     .action-icon i:hover {
-        font-size: 20px;
         color: #24afb2;
     }
 .breadcrumb-decor {
