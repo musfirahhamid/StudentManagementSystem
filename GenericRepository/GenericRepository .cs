@@ -39,17 +39,17 @@ namespace StudentManagementSystem.GenericRepository
             
             }
         //This method will return all the active record from the table
-        public IQueryable<T> GetAllActive()
+        public IEnumerable<T> GetAllActive()
             {
-            return table.Where(t => !t.IsDeleted).AsQueryable();
+            return table.Where(t => !t.IsDeleted).ToList();
             }
 
 
         //This method will return all the deleted records from the table
-        public IQueryable<T> GetAllDeleted()
+        public IEnumerable<T> GetAllDeleted()
             {
             //return table.Where("IsDeleted == true").ToList();
-            return table.Where(t => t.IsDeleted).AsQueryable();
+            return table.Where(t => t.IsDeleted).ToList();
             }
         //This method will return the specified record from the table
         public T GetById(object id)

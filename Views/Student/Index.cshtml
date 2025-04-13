@@ -89,10 +89,7 @@
                 <p><span>Full Name: </span>@student.FirstName @student.LastName </p>
                 <p><span>Email: </span> @student.Email</p>
                 <p><span>Phone: </span> @student.PhoneNumber</p>
-                <p>
-                    <span>Session: </span>
-                    @(student.Session == null ? "" : student.Session.SessionYear)
-                </p>
+                <p><span>Session: </span> 4</p>
                 <p>
                     <a href="@Url.Action("ViewStudent", "Student", new { id= student.Id })" class="action-icon"> <i class="bi-eye"></i></a>
                     <a href="@Url.Action("Update","Student", new { id = student.Id })" class="action-icon"> <i class="bi-pencil"></i></a>

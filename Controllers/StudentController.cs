@@ -1,5 +1,4 @@
 ﻿using StudentManagementSystem.DAL;
-using System.Data.Entity;
 using StudentManagementSystem.GenericRepository;
 using StudentManagementSystem.Models;
 using System;
@@ -14,12 +13,10 @@ namespace StudentManagementSystem.Controllers
     {
         //Created a variable to hold the instance of GenericRepository
         private IGenericRepository<Student> genericRepository = null;
-        private IGenericRepository<Session> sessionRepository = null;
         //Initializing the genericRepository through a parameterless constructor
         public StudentController()
             {
             this.genericRepository = new GenericRepository<Student>();
-            this.sessionRepository = new GenericRepository<Session>();
             }
 
         //The following Action Method is used to return all the student
@@ -31,30 +28,29 @@ namespace StudentManagementSystem.Controllers
                 showFilter = "active"; // Default value
                 }
 
-            // Use Include to eagerly load the Session related to each student
-            var studentQuery = genericRepository.GetAllActive()
-                .Include(s => s.Session) // Include Session entity
-                .AsQueryable();
+            var student = genericRepository.GetAllActive().AsQueryable();
 
             if(showFilter == "deleted")
                 {
-                studentQuery = genericRepository.GetAllDeleted()
-                    .Include(s => s.Session) // Include Session for deleted students too
-                    .AsQueryable();
+                student = genericRepository.GetAllDeleted().AsQueryable();
+                }
+            else
+                {
+                student = genericRepository.GetAllActive().AsQueryable();
                 }
 
             // Apply search filter
             if(!string.IsNullOrEmpty(searchTerm))
                 {
-                studentQuery = studentQuery.Where(s => s.FirstName.Contains(searchTerm) || s.LastName.Contains(searchTerm));
+                student = student.Where(s => s.FirstName.Contains(searchTerm) || s.LastName.Contains(searchTerm));
                 }
 
             // Pagination logic
             int pageSize = 10;
-            studentQuery = studentQuery.OrderByDescending(s => s.CreatedDate);
-            int totalRecords = studentQuery.Count();
+            student = student.OrderByDescending(s => s.CreatedDate);
+            int totalRecords = student.Count();
             int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
-            var students = studentQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            student = student.Skip((page - 1) * pageSize).Take(pageSize);
 
             // Pass data to view
             ViewBag.ShowActive = showFilter != "deleted";
@@ -63,7 +59,7 @@ namespace StudentManagementSystem.Controllers
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
 
-            return View(students);
+            return View(student.ToList());
             }
 
 
@@ -94,24 +90,16 @@ namespace StudentManagementSystem.Controllers
         [HttpGet]
         public ActionResult Create()
             {
-            ViewBag.Session = new SelectList(sessionRepository.GetAllActive(), "Id", "SessionYear");
             return View();
             }
 
         [HttpPost]
-        public ActionResult Create(Student model /*int StudentSessionId*/)
+        public ActionResult Create(Student model)
             {
             if(!ModelState.IsValid)
                 {
-                ViewBag.Session = new SelectList(sessionRepository.GetAllActive(),"Id", "SessionYear");
                 return View(model); // Return view with validation errors
                 }
-
-            //var SelectedSession = sessionRepository.GetById(StudentSessionId);
-            //if(SelectedSession != null)
-            //    {
-            //    model.Id = SelectedSession.Id;
-            //    }
 
             genericRepository.Insert(model);
             model.CreatedDate = DateTime.UtcNow;
