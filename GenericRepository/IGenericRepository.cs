@@ -9,8 +9,8 @@ namespace StudentManagementSystem.GenericRepository
         public interface IGenericRepository<T> where T : class
             {
             IEnumerable<T> GetAll();
-            IEnumerable<T> GetAllActive();
-            IEnumerable<T> GetAllDeleted();
+            IQueryable<T> GetAllActive();
+            IQueryable<T> GetAllDeleted();
             T GetById(object id);
             void Insert(T obj);
             void Update(T obj);
