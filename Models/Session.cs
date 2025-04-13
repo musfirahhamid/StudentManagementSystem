@@ -5,7 +5,7 @@ using System.Web;
 
 namespace StudentManagementSystem.Models
     {
-    public class Session:Common
+    public class Session : Common
         {
         public int SessionYear { get; set; }
 

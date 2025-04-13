@@ -193,6 +193,7 @@
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Session.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
