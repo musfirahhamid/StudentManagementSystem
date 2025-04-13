@@ -14,6 +14,7 @@ namespace StudentManagementSystem.DAL
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Session> Sessions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

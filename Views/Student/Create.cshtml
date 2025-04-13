@@ -23,6 +23,9 @@
             {
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+        <div class="col-md-6">
+            @Html.DropDownListFor(model => model.SessionId, (SelectList)ViewBag.Session, "Select Session")
+        </div>
                 <div class="col-md-6">
                     @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "form-label" })<sup>*</sup>
                     @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
