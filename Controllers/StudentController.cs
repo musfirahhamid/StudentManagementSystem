@@ -125,14 +125,16 @@ namespace StudentManagementSystem.Controllers
         public ActionResult Update(int id)
             {
             Student model = genericRepository.GetById(id);
+            ViewBag.Session = new SelectList(sessionRepository.GetAllActive(), "Id", "SessionYear");
             return View(model);
             }
         //The following Action Method will be called when we  click on the Submit button on the Edit Student view
         [HttpPost]
-        public ActionResult Update(Student model)
+        public ActionResult Update(Student model, string returnUrl)
             {
             if(!ModelState.IsValid)
                 {
+                ViewBag.Session = new SelectList(sessionRepository.GetAllActive(), "Id", "SessionYear");
                 return View(model); // Return view with validation errors
                 }
 
@@ -147,7 +149,9 @@ namespace StudentManagementSystem.Controllers
             foreach(var property in typeof(Student).GetProperties())
                 {
                 // Ensure we don't update CreatedDate or any other properties you want to preserve
-                if(property.Name != "CreatedDate" && property.CanWrite)
+                if(property.Name != "CreatedDate" &&
+                    property.Name != "IsDeleted" 
+                        && property.CanWrite)
                     {
                     var value = property.GetValue(model);
                     property.SetValue(existingStudent, value); // Set value on existingStudent, not model
@@ -159,6 +163,10 @@ namespace StudentManagementSystem.Controllers
 
             // Save the changes to the database
             genericRepository.Save();
+            if(!string.IsNullOrEmpty(returnUrl))
+                {
+                return Redirect(returnUrl);
+                }
 
             // Redirect to the Index page to view the updated list
             return RedirectToAction("Index", "Student");

@@ -51,5 +51,8 @@ namespace StudentManagementSystem.Models
 
         public int? SessionId { get; set; }
         public Session Session { get; set; }
+
+        public int? CourseId { get; set; }
+        public Session Course { get; set; }
         }
 }

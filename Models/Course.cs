@@ -6,11 +6,9 @@ using System.Web;
 
 namespace StudentManagementSystem.Models
     {
-    public class Course
+    public class Course:Common
         {
-        [Key]
-        public int Id { get; set; }
-
+      
         [Required]
         [Display(Name ="Course Code")]
         public string CourseCode { get; set; }
@@ -19,6 +17,20 @@ namespace StudentManagementSystem.Models
         [Display(Name ="Course Name")]
         public string CourseName { get; set; }
 
-        public bool IsDeleted { get; set; }
+        [Display(Name ="Credit Hours")]
+        public int CreditHours { get; set; }
+
+        [Display(Name ="Course Status")]
+        public string Status { get; set; } // Active, Inactive, Archived
+
+        public int? SessionId { get; set; }
+        public Session Session { get; set; }
+
+
+
+        public ICollection<Student> Students { get; set; }
+        public ICollection<Teacher> Teachers { get; set; }
+        public ICollection<Session> Sessions { get; set; }
+
         }
     }
