@@ -189,6 +189,10 @@
     <Compile Include="Migrations\202504042149112_updatecommonmodel.Designer.cs">
       <DependentUpon>202504042149112_updatecommonmodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504172251417_addedcourseandteacherentities.cs" />
+    <Compile Include="Migrations\202504172251417_addedcourseandteacherentities.Designer.cs">
+      <DependentUpon>202504172251417_addedcourseandteacherentities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Course.cs" />
@@ -738,6 +742,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504042149112_updatecommonmodel.resx">
       <DependentUpon>202504042149112_updatecommonmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504172251417_addedcourseandteacherentities.resx">
+      <DependentUpon>202504172251417_addedcourseandteacherentities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
